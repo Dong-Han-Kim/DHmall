@@ -8,10 +8,6 @@ export const container = style({
 	height: '100dvh',
 });
 
-export const header = style({
-	flex: 1,
-});
-
 export const main = style({
 	flex: 2,
 	width: '68vw',

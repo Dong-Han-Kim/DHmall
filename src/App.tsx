@@ -4,9 +4,7 @@ import { Header } from './component/Header';
 function App() {
 	return (
 		<main className={style.container}>
-			<div>
-				<Header />
-			</div>
+			<Header />
 			<div className={style.main}>main contents</div>
 		</main>
 	);
