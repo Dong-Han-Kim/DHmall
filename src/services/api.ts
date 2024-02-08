@@ -11,8 +11,8 @@ export async function getSingleProduct(id: number) {
 	return { singleProduct };
 }
 
-export async function getLimitResults(id: number) {
-	const response = await fetch(`https://fakestoreapi.com/products?limit=${id}`);
+export async function getLimitResults(count: number) {
+	const response = await fetch(`https://fakestoreapi.com/products?limit=${count}`);
 	const limitResults = await response.json();
 	return { limitResults };
 }
@@ -73,8 +73,8 @@ export async function updataProduct({ title, price, description, image, category
 	return { upProduct };
 }
 
-export async function deleteProdect() {
-	const response = await fetch('https://fakestoreapi.com/products/6', {
+export async function deleteProdect(id: number) {
+	const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
 		method: 'DELETE',
 	});
 

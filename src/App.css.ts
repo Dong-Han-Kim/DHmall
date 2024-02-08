@@ -7,10 +7,3 @@ export const container = style({
 	width: '100%',
 	height: '100dvh',
 });
-
-export const main = style({
-	flex: 2,
-	width: '68vw',
-	backgroundColor: 'yellow',
-	margin: '0 auto',
-});
