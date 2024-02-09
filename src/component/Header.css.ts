@@ -5,10 +5,10 @@ export const container = style({
 	justifyContent: 'center',
 	alignItems: 'center',
 	flexDirection: 'column',
-	backgroundColor: 'yellowgreen',
 	width: '68vw',
 	margin: '0 auto',
 	height: '18vh',
+	borderBottom: '1px solid lightgray',
 });
 
 export const headerTop = style({
@@ -43,7 +43,7 @@ export const searchForm = style({
 export const searchInput = style({
 	width: '26vw',
 	height: 40,
-	border: 'none',
+	border: '1px solid lightgray',
 	outline: 'none',
 });
 

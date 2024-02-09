@@ -12,7 +12,6 @@ function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="detail/:id" element={<Detail />} />
 			</Routes>
-			{/* <div className={style.main}>main contents</div> */}
 		</main>
 	);
 }
