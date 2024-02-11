@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Cart, SearchIcon, User } from '../assets/icons';
 import * as style from './Header.css';
 import { Nav } from './Nav';
@@ -6,7 +7,9 @@ export function Header() {
 	return (
 		<header className={style.container}>
 			<section className={style.headerTop}>
-				<img src="/logo.png" alt="logo" className={style.logo} />
+				<Link to={'/'}>
+					<img src="/logo.png" alt="logo" className={style.logo} />
+				</Link>
 
 				<div className={style.search}>
 					<form className={style.searchForm}>

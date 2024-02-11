@@ -24,7 +24,7 @@ export function Slider() {
 			}}>
 			{items.map((item) => {
 				return (
-					<SwiperSlide>
+					<SwiperSlide key={item.id}>
 						<img src={item.image} alt={item.id} className={style.slide} />
 					</SwiperSlide>
 				);
