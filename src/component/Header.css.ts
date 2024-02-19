@@ -54,6 +54,7 @@ export const searchBtn = style({
 	border: 'none',
 	outline: 'none',
 	backgroundColor: 'rgb(0, 150, 255)',
+	color: 'white',
 	cursor: 'pointer',
 });
 

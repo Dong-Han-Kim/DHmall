@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLimitResults } from '../services/api';
+import { getSpecificCategory } from '../services/api';
 import * as style from './MainItems.css';
+import { Link } from 'react-router-dom';
 
 interface Product {
 	id: number;
@@ -10,10 +11,10 @@ interface Product {
 	image: string;
 }
 
-export function MainItems({ category, count }: { category: string; count: number }) {
+export function MainItems({ category }: { category: string }) {
 	const limitCategory = useQuery({
-		queryKey: ['limitResults', category, count],
-		queryFn: () => getLimitResults(category, count),
+		queryKey: ['specificCategory', category],
+		queryFn: () => getSpecificCategory(category),
 	});
 
 	if (limitCategory.status === 'pending') {
@@ -21,7 +22,7 @@ export function MainItems({ category, count }: { category: string; count: number
 	} else if (limitCategory.status === 'error') {
 		return <h1>ERROR: {limitCategory.error.message}</h1>;
 	}
-	const products = limitCategory.data.limitResults;
+	const products = limitCategory.data.specificCategory;
 
 	return (
 		<main className={style.main}>
@@ -29,15 +30,17 @@ export function MainItems({ category, count }: { category: string; count: number
 				{products
 					.map((product: Product) => {
 						return (
-							<div className={style.product} key={product.id}>
-								<div className={style.imgBox}>
-									<img src={product.image} alt="product image" className={style.productImg} />
+							<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+								<div>
+									<div className={style.imgBox}>
+										<img src={product.image} alt="product image" className={style.productImg} />
+									</div>
+									<div className={style.textBox}>
+										<h2 className={style.productTitle}>{product.title}</h2>
+										<h3 className={style.productPrice}>${product.price}</h3>
+									</div>
 								</div>
-								<div className={style.textBox}>
-									<h2 className={style.productTitle}>{product.title}</h2>
-									<h3 className={style.productPrice}>${product.price}</h3>
-								</div>
-							</div>
+							</Link>
 						);
 					})
 					.slice(0, 4)}

@@ -11,7 +11,7 @@ export function Nav() {
 				<NavLink to={'/fashion'} className={({ isActive }) => (isActive ? style.active : undefined)}>
 					<li className={style.navItem}>Fashion</li>
 				</NavLink>
-				<NavLink to={'/jewelry'} className={({ isActive }) => (isActive ? style.active : undefined)}>
+				<NavLink to={'/jewelery'} className={({ isActive }) => (isActive ? style.active : undefined)}>
 					<li className={style.navItem}>Jewelry</li>
 				</NavLink>
 			</ul>

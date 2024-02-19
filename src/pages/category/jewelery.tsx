@@ -1,6 +1,6 @@
 import { Categories } from '../../component/Categories';
 
-export default function Electronics() {
+export default function Jewelery() {
 	return (
 		<>
 			<Categories />

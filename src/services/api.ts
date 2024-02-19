@@ -5,14 +5,14 @@ export async function getAllProduct() {
 	return { allProduct };
 }
 
-export async function getSingleProduct(id: number) {
+export async function getSingleProduct(id: string) {
 	const response = await fetch(`https://fakestoreapi.com/products/${id}`);
 	const singleProduct = await response.json();
 	return { singleProduct };
 }
 
-export async function getLimitResults(category: string, count: number) {
-	const response = await fetch(`https://fakestoreapi.com/products?/category${category}/limit=${count}`);
+export async function getLimitResults(count: number) {
+	const response = await fetch(`'https://fakestoreapi.com/products?limit=${count}`);
 	const limitResults = await response.json();
 	return { limitResults };
 }

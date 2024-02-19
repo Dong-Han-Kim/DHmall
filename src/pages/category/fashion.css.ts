@@ -6,16 +6,40 @@ export const main = style({
 	margin: '0 auto',
 });
 
+export const active = style({
+	backgroundColor: 'rgb(0, 150, 255)',
+	color: 'white',
+});
+
+export const btnBox = style({
+	display: 'flex',
+	justifyContent: 'center',
+	gap: 3,
+	marginBottom: 20,
+});
+
+export const btn = style({
+	padding: 8,
+	outline: 'none',
+	border: '1px solid gray',
+	borderRadius: '8px',
+	fontWeight: 'bolder',
+	':hover': {
+		backgroundColor: 'rgb(0, 150, 255)',
+		color: 'white',
+	},
+});
+
 export const container = style({
 	display: 'flex',
 	gap: 5,
-	justifyContent: 'center',
 	flexWrap: 'wrap',
+	justifyContent: 'center',
+	padding: 20,
 });
 
 export const product = style({
 	display: 'flex',
-	justifyContent: 'center',
 	width: '25%',
 	flexDirection: 'column',
 	backgroundColor: 'white',

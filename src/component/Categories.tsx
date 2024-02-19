@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSpecificCategory } from '../services/api';
 import * as style from './Categories.css';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Product {
 	id: number;
@@ -31,16 +31,20 @@ export function Categories() {
 		<main className={style.main}>
 			<div className={style.container}>
 				{products.map((product: Product) => {
+					console.log(product);
+
 					return (
-						<div className={style.product} key={product.id}>
-							<div className={style.imgBox}>
-								<img src={product.image} alt="product image" className={style.productImg} />
+						<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+							<div>
+								<div className={style.imgBox}>
+									<img src={product.image} alt="product image" className={style.productImg} />
+								</div>
+								<div className={style.textBox}>
+									<h2 className={style.productTitle}>{product.title}</h2>
+									<h3 className={style.productPrice}>${product.price}</h3>
+								</div>
 							</div>
-							<div className={style.textBox}>
-								<h2 className={style.productTitle}>{product.title}</h2>
-								<h3 className={style.productPrice}>${product.price}</h3>
-							</div>
-						</div>
+						</Link>
 					);
 				})}
 			</div>
