@@ -4,6 +4,7 @@ import * as style from './fashion.css';
 import { getAllProduct, getSpecificCategory } from '../../services/api';
 import { useState } from 'react';
 import { MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Product {
 	id: number;
@@ -83,49 +84,55 @@ export default function Fashion() {
 								})
 								.map((product: Product) => {
 									return (
-										<div className={style.product} key={product.id}>
-											<div className={style.imgBox}>
-												<img
-													src={product.image}
-													alt="product image"
-													className={style.productImg}
-												/>
+										<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+											<div>
+												<div className={style.imgBox}>
+													<img
+														src={product.image}
+														alt="product image"
+														className={style.productImg}
+													/>
+												</div>
+												<div className={style.textBox}>
+													<h2 className={style.productTitle}>{product.title}</h2>
+													<h3 className={style.productPrice}>${product.price}</h3>
+												</div>
 											</div>
-											<div className={style.textBox}>
-												<h2 className={style.productTitle}>{product.title}</h2>
-												<h3 className={style.productPrice}>${product.price}</h3>
-											</div>
-										</div>
+										</Link>
 									);
 								})
 						: null}
 					{clothes === "/men's clothing" &&
 						fashionList?.map((product: Product) => {
 							return (
-								<div className={style.product} key={product.id}>
-									<div className={style.imgBox}>
-										<img src={product.image} alt="product image" className={style.productImg} />
+								<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+									<div>
+										<div className={style.imgBox}>
+											<img src={product.image} alt="product image" className={style.productImg} />
+										</div>
+										<div className={style.textBox}>
+											<h2 className={style.productTitle}>{product.title}</h2>
+											<h3 className={style.productPrice}>${product.price}</h3>
+										</div>
 									</div>
-									<div className={style.textBox}>
-										<h2 className={style.productTitle}>{product.title}</h2>
-										<h3 className={style.productPrice}>${product.price}</h3>
-									</div>
-								</div>
+								</Link>
 							);
 						})}
 
 					{clothes === "/women's clothing" &&
 						fashionList?.map((product: Product) => {
 							return (
-								<div className={style.product} key={product.id}>
-									<div className={style.imgBox}>
-										<img src={product.image} alt="product image" className={style.productImg} />
+								<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+									<div>
+										<div className={style.imgBox}>
+											<img src={product.image} alt="product image" className={style.productImg} />
+										</div>
+										<div className={style.textBox}>
+											<h2 className={style.productTitle}>{product.title}</h2>
+											<h3 className={style.productPrice}>${product.price}</h3>
+										</div>
 									</div>
-									<div className={style.textBox}>
-										<h2 className={style.productTitle}>{product.title}</h2>
-										<h3 className={style.productPrice}>${product.price}</h3>
-									</div>
-								</div>
+								</Link>
 							);
 						})}
 				</div>

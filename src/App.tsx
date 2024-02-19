@@ -13,9 +13,12 @@ function App() {
 			<Header />
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/Electronics" element={<Electronics />} />
-				<Route path="/Fashion" element={<Fashion />} />
+				<Route path="/electronics" element={<Electronics />} />
+				<Route path="/electronics/detail/:id" element={<Detail />} />
+				<Route path="/fashion" element={<Fashion />} />
+				<Route path="/fashion/detail/:id" element={<Detail />} />
 				<Route path="/jewelery" element={<Jewelery />} />
+				<Route path="/jewelery/detail/:id" element={<Detail />} />
 				<Route path="detail/:id" element={<Detail />} />
 			</Routes>
 		</main>

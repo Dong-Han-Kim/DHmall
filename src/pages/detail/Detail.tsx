@@ -11,6 +11,7 @@ export default function Detail() {
 		queryFn: () => getSingleProduct(id),
 	});
 
+	console.log(id);
 	console.dir(id);
 
 	if (detailFetch.status === 'pending') {
