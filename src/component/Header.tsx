@@ -25,7 +25,9 @@ export function Header() {
 						<User />
 					</div>
 					<div className={style.cart}>
-						<Cart />
+						<Link to={'/cart'}>
+							<Cart />
+						</Link>
 					</div>
 				</div>
 			</section>

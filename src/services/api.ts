@@ -83,3 +83,8 @@ export async function deleteProdect(id: number) {
 }
 
 // Cart
+export async function getAllCart() {
+	const response = await fetch('https://fakestoreapi.com/carts');
+	const allCart = await response.json();
+	return { allCart };
+}

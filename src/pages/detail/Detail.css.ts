@@ -3,12 +3,16 @@ import { style } from '@vanilla-extract/css';
 export const top = style({
 	display: 'flex',
 	justifyContent: 'space-between',
-	margin: '0 auto',
+	margin: '3rem auto',
 	padding: 15,
+	width: '60vw',
+	height: '17rem',
 });
 
 export const imgBox = style({
 	marginRight: 15,
+	display: 'flex',
+	alignItems: 'center',
 });
 
 export const img = style({
@@ -19,6 +23,11 @@ export const info = style({
 	display: 'flex',
 	justifyContent: 'space-between',
 	flexDirection: 'column',
+});
+
+export const title = style({
+	display: 'flex',
+	justifyContent: 'flex-end',
 });
 
 export const price = style({
@@ -34,6 +43,13 @@ export const count = style({
 	height: '2rem',
 	display: 'flex',
 	marginLeft: 'auto',
+});
+
+export const goToCart = style({
+	width: 'fit-content',
+	position: 'relative',
+	marginLeft: 'auto',
+	backgroundColor: 'white',
 });
 
 export const addToCart = style({

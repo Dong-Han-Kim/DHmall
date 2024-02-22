@@ -6,6 +6,7 @@ import Detail from './pages/detail/Detail';
 import Electronics from './pages/category/electronics';
 import Fashion from './pages/category/fashion';
 import Jewelery from './pages/category/jewelery';
+import Cart from './pages/cart/cart';
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 				<Route path="/jewelery" element={<Jewelery />} />
 				<Route path="/jewelery/detail/:id" element={<Detail />} />
 				<Route path="detail/:id" element={<Detail />} />
+				<Route path="/cart" element={<Cart />} />
 			</Routes>
 		</main>
 	);
