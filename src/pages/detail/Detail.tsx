@@ -2,37 +2,50 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
 import { getSingleProduct } from '../../services/api';
 import * as style from './Detail.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+interface Product {
+	id: number;
+	title: string;
+	category: string;
+	amount: number;
+	description: string;
+	children?: Product[] | undefined;
+}
 
 export default function Detail() {
 	const { id } = useParams() as { id: string };
+	const [select, setSelect] = useState<Product[]>([]);
 	const [amount, setAmount] = useState<number>(1);
+
+	useEffect(() => {
+		const products = JSON.parse(localStorage.getItem('CartItem'));
+		if (!products || products.length === 0) return;
+		setSelect(products);
+	}, []);
+
 	const detailFetch = useQuery({
 		queryKey: ['singleProduct', id],
 		queryFn: () => getSingleProduct(id),
 	});
-
-	console.log(id);
-	console.dir(id);
 
 	if (detailFetch.status === 'pending') {
 		return <h1>Loading...</h1>;
 	} else if (detailFetch.status === 'error') {
 		return <h1>ERROR: {detailFetch.error.message}</h1>;
 	}
-
 	const detailData = detailFetch.data.singleProduct;
-	const selectItem = {
+
+	const selectItem: Product = {
 		...detailData,
 		amount: amount,
 	};
-
-	console.log(selectItem);
+	const productArr = [...select, selectItem];
 
 	function addTocartHandler() {
-		localStorage.setItem(selectItem.id, JSON.stringify(selectItem));
+		localStorage.setItem('CartItem', JSON.stringify(productArr));
+		setSelect(productArr);
 	}
-
 	return (
 		<>
 			<section className={style.top}>
@@ -45,6 +58,7 @@ export default function Detail() {
 					<input
 						className={style.count}
 						type="number"
+						name="amount"
 						placeholder="1"
 						min={1}
 						value={amount}

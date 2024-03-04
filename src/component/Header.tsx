@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Cart, SearchIcon, User } from '../assets/icons';
-import * as style from './Header.css';
+import * as style from './styles/Header.css';
 import { Nav } from './Nav';
 
 export function Header() {

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSpecificCategory } from '../services/api';
-import * as style from './Categories.css';
+import * as style from './styles/Categories.css';
 import { Link, useLocation } from 'react-router-dom';
 
 interface Product {
@@ -31,8 +31,6 @@ export function Categories() {
 		<main className={style.main}>
 			<div className={style.container}>
 				{products.map((product: Product) => {
-					console.log(product);
-
 					return (
 						<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
 							<div>

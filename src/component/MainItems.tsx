@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSpecificCategory } from '../services/api';
-import * as style from './MainItems.css';
+import * as style from './styles/MainItems.css';
 import { Link } from 'react-router-dom';
 
 interface Product {

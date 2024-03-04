@@ -4,4 +4,5 @@ export const container = style({
 	display: 'flex',
 	flexDirection: 'column',
 	width: '100%',
+	padding: 20,
 });

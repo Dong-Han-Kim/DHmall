@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, lazy } from 'react';
+import React, { Suspense, useState, lazy } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
