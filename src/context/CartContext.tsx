@@ -7,16 +7,12 @@ export default function CartContextProvider({ children }: { children: ReactNode 
 	const key = 'CartItem';
 
 	useEffect(() => {
-		function getProductArr() {
-			const productObj = JSON.parse(localStorage.getItem(key));
-			if (!productObj || productObj.length === 0) return;
-			setProduct(productObj);
-		}
-		getProductArr();
+		const productObj = JSON.parse(localStorage.getItem(key));
+		if (!productObj || productObj.length === 0) return;
+		setProduct(productObj);
 	}, []);
-	console.log(product);
 
-	return <CartContext.Provider value={{ product }}>{children}</CartContext.Provider>;
+	return <CartContext.Provider value={{ product, setProduct }}>{children}</CartContext.Provider>;
 }
 
 export const useCartContext = () => useContext(CartContext);

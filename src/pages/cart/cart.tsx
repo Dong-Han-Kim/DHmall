@@ -16,7 +16,7 @@ interface Product {
 
 export default function Cart() {
 	const [totalPrice, setTotalPrice] = useState(0);
-	const { product } = useCartContext();
+	const { product, setProduct } = useCartContext();
 	const priceArr: number[] = [];
 
 	useEffect(() => {
@@ -29,8 +29,8 @@ export default function Cart() {
 			item.id !== id;
 		});
 		console.log(newProductarr);
-
-		return localStorage.setItem('CartItem', JSON.stringify(newProductarr));
+		localStorage.setItem('CartItem', JSON.stringify(newProductarr));
+		setProduct(newProductarr);
 	}
 
 	return (
