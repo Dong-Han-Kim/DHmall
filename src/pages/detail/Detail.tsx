@@ -11,21 +11,16 @@ interface Product {
 	category: string;
 	amount: number;
 	description: string;
+	image: string;
+	price: number;
 }
 
 export default function Detail() {
 	const { id } = useParams() as { id: string };
-	const { product } = useCartContext();
-	const [selectList, setSelectList] = useState<Product[]>(product);
+	const { product, setProduct } = useCartContext();
+	// const [selectList, setSelectList] = useState<Product[]>(product);
 	const [amount, setAmount] = useState<number>(1);
 	const key = 'CartItem';
-
-	// useEffect(() => {
-	// 	const products = JSON.parse(localStorage.getItem(key));
-	// 	if (!products || products.length === 0) return;
-	// 	setSelectList(products);
-	// }, []);
-
 	const detailFetch = useQuery({
 		queryKey: ['singleProduct', id],
 		queryFn: () => getSingleProduct(id),
@@ -47,21 +42,21 @@ export default function Detail() {
 	function addTocartHandler() {
 		if (!isAlreadyInCart) {
 			localStorage.setItem(key, JSON.stringify([...product, selectItem]));
-			setSelectList([...product, selectItem]);
+			setProduct([...product, selectItem]);
 		} else if (isAlreadyInCart) {
 			const update = product.map((item: Product) => {
-				item.id === productDetail.id && setAmount((prev) => prev + amount);
-				console.log({ ...item, amount: item.amount + amount });
-
-				return { ...item, amount: item.amount + amount };
+				if (item.id === productDetail.id) {
+					setAmount((prev) => prev + amount);
+					console.log({ ...item, amount: item.amount + amount });
+					return { ...item, amount: item.amount + amount };
+				} else {
+					return;
+				}
 			});
 			console.log(update);
 			localStorage.setItem(key, JSON.stringify(update));
-			setSelectList([update]);
-			console.log(selectList);
+			setProduct(update);
 		}
-		console.log(selectList);
-		console.log(isAlreadyInCart);
 	}
 
 	return (
