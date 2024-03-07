@@ -18,7 +18,6 @@ interface Product {
 export default function Detail() {
 	const { id } = useParams() as { id: string };
 	const { product, setProduct } = useCartContext();
-	// const [selectList, setSelectList] = useState<Product[]>(product);
 	const [amount, setAmount] = useState<number>(1);
 	const key = 'CartItem';
 	const detailFetch = useQuery({
@@ -50,7 +49,7 @@ export default function Detail() {
 					console.log({ ...item, amount: item.amount + amount });
 					return { ...item, amount: item.amount + amount };
 				} else {
-					return;
+					return item;
 				}
 			});
 			console.log(update);

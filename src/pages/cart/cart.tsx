@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import AmountForm from '../../component/AmountForm';
 import { useCartContext } from '../../context/CartContext';
 import * as style from './Cart.css';
@@ -25,12 +25,12 @@ export default function Cart() {
 	}, [priceArr]);
 
 	function deleteProduct(id: number) {
-		const newProductarr = product.filter((item: Product) => {
-			item.id !== id;
+		const newProductArr = product.filter((item: Product) => {
+			return item.id !== id;
 		});
-		console.log(newProductarr);
-		localStorage.setItem('CartItem', JSON.stringify(newProductarr));
-		setProduct(newProductarr);
+		console.log(newProductArr);
+		localStorage.setItem('CartItem', JSON.stringify(newProductArr));
+		setProduct(newProductArr);
 	}
 
 	return (
