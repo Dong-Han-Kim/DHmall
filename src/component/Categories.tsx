@@ -39,7 +39,7 @@ export function Categories() {
 								</div>
 								<div className={style.textBox}>
 									<h2 className={style.productTitle}>{product.title}</h2>
-									<h3 className={style.productPrice}>${product.price}</h3>
+									<h3 className={style.productPrice}>${Math.floor(product.price)}</h3>
 								</div>
 							</div>
 						</Link>

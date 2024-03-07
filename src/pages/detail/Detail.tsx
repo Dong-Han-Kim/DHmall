@@ -66,7 +66,7 @@ export default function Detail() {
 				</div>
 				<div className={style.info}>
 					<h1 className={style.title}>{productDetail.title}</h1>
-					<h3 className={style.price}>${productDetail.price}</h3>
+					<h3 className={style.price}>${Math.floor(productDetail.price)}</h3>
 					<input
 						className={style.count}
 						type="number"

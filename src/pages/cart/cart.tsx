@@ -44,7 +44,7 @@ export default function Cart() {
 				</div>
 				<hr />
 				{product.map((item: Product) => {
-					priceArr.push(item.price * item.amount);
+					priceArr.push(Math.floor(item.price) * item.amount);
 					return (
 						<div key={item.id}>
 							<div className={style.productList}>
@@ -55,7 +55,7 @@ export default function Cart() {
 								<div className={style.productAmount}>
 									<AmountForm id={item.id} amount={item.amount} />
 								</div>
-								<span className={style.productPrice}>${item.price * item.amount}</span>
+								<span className={style.productPrice}>${Math.floor(item.price) * item.amount}</span>
 								<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
 									<Trash />
 								</button>
