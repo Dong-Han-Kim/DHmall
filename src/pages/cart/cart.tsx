@@ -3,6 +3,7 @@ import AmountForm from '../../component/AmountForm';
 import { useCartContext } from '../../context/CartContext';
 import * as style from './Cart.css';
 import { Trash } from '../../assets/icons';
+import NoProduct from '../../component/noProduct';
 
 interface Product {
 	id: number;
@@ -43,27 +44,31 @@ export default function Cart() {
 					<span className={style.productDelete}>Delete</span>
 				</div>
 				<hr />
-				{product.map((item: Product) => {
-					priceArr.push(Math.floor(item.price) * item.amount);
-					return (
-						<div key={item.id}>
-							<div className={style.productList}>
-								<div className={`${style.productInfo} ${style.product}`}>
-									<img className={style.productImg} src={item.image} alt="product image" />
-									<h4 className={style.productTitle}>{item.title}</h4>
+				{product.length === 0 ? (
+					<NoProduct />
+				) : (
+					product.map((item: Product) => {
+						priceArr.push(Math.floor(item.price) * item.amount);
+						return (
+							<div key={item.id}>
+								<div className={style.productList}>
+									<div className={`${style.productInfo} ${style.product}`}>
+										<img className={style.productImg} src={item.image} alt="product image" />
+										<h4 className={style.productTitle}>{item.title}</h4>
+									</div>
+									<div className={style.productAmount}>
+										<AmountForm id={item.id} amount={item.amount} />
+									</div>
+									<span className={style.productPrice}>${Math.floor(item.price) * item.amount}</span>
+									<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
+										<Trash />
+									</button>
 								</div>
-								<div className={style.productAmount}>
-									<AmountForm id={item.id} amount={item.amount} />
-								</div>
-								<span className={style.productPrice}>${Math.floor(item.price) * item.amount}</span>
-								<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
-									<Trash />
-								</button>
+								<hr />
 							</div>
-							<hr />
-						</div>
-					);
-				})}
+						);
+					})
+				)}
 			</section>
 			<section className={style.cartBottom}>
 				<h1>
