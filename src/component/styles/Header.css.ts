@@ -78,12 +78,13 @@ export const cartLength = style({
 	fontWeight: 'bolder',
 	borderRadius: '50%',
 	position: 'relative',
-	textAlign: 'center',
-	width: 25,
-	height: 25,
+	width: 20,
+	height: 20,
 	zIndex: 5,
 	top: -50,
-	right: -20,
+	right: -25,
+	textAlign: 'center',
+	fontSize: 15,
 });
 
 export const user = style({
