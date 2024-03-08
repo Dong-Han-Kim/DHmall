@@ -72,6 +72,20 @@ export const cart = style({
 	cursor: 'pointer',
 });
 
+export const cartLength = style({
+	backgroundColor: 'rgb(0, 150, 255)',
+	color: 'white',
+	fontWeight: 'bolder',
+	borderRadius: '50%',
+	position: 'relative',
+	textAlign: 'center',
+	width: 25,
+	height: 25,
+	zIndex: 5,
+	top: -50,
+	right: -20,
+});
+
 export const user = style({
 	width: 40,
 	cursor: 'pointer',
