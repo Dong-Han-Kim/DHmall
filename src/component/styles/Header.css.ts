@@ -52,7 +52,6 @@ export const searchBtn = style({
 	height: 40,
 	padding: 10,
 	border: 'none',
-	outline: 'none',
 	backgroundColor: 'rgb(0, 150, 255)',
 	color: 'white',
 	cursor: 'pointer',

@@ -3,9 +3,16 @@ import { Cart, SearchIcon, User } from '../assets/icons';
 import * as style from './styles/Header.css';
 import { Nav } from './Nav';
 import { useCartContext } from '../context/CartContext';
+import { useEffect, useState } from 'react';
 
 export function Header() {
 	const { product } = useCartContext();
+	const [current, setCurrent] = useState(product);
+	const user = false;
+	useEffect(() => {
+		setCurrent(product);
+	}, [product]);
+
 	return (
 		<header className={style.container}>
 			<section className={style.headerTop}>
@@ -23,13 +30,24 @@ export function Header() {
 				</div>
 
 				<div className={style.individual}>
-					<div className={style.user}>
-						<User />
-					</div>
+					{!user ? (
+						<Link to={'/login'}>
+							<div className={style.user}>
+								<User />
+							</div>
+						</Link>
+					) : (
+						<Link to={'/individual'}>
+							<div className={style.user}>
+								<User />
+							</div>
+						</Link>
+					)}
+
 					<div className={style.cart}>
 						<Link to={'/cart'}>
 							<Cart />
-							{product.length === 0 ? null : <div className={style.cartLength}>{product.length}</div>}
+							{current.length === 0 ? null : <div className={style.cartLength}>{current.length}</div>}
 						</Link>
 					</div>
 				</div>

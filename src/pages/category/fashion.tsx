@@ -5,6 +5,7 @@ import { getAllProduct, getSpecificCategory } from '../../services/api';
 import { useState } from 'react';
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+import Loading from '../../component/Loading';
 
 interface Product {
 	id: number;
@@ -36,7 +37,7 @@ export default function Fashion() {
 	});
 
 	if (fashion.status === 'pending') {
-		return <h1>Loading...</h1>;
+		return <Loading />;
 	} else if (fashion.status === 'error') {
 		return <h1>ERROR: {fashion.error.message}</h1>;
 	} else if (!fashion.data) {

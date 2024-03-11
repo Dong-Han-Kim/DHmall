@@ -3,7 +3,8 @@ import AmountForm from '../../component/AmountForm';
 import { useCartContext } from '../../context/CartContext';
 import * as style from './Cart.css';
 import { Trash } from '../../assets/icons';
-import NoProduct from '../../component/noProduct';
+import NoProduct from '../../component/NoProduct';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
 	id: number;
@@ -17,8 +18,10 @@ interface Product {
 
 export default function Cart() {
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [payment, setPayment] = useState(false);
 	const { product, setProduct } = useCartContext();
 	const priceArr: number[] = [];
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const result = priceArr.reduce((sum, current) => sum + current, 0);
@@ -34,6 +37,17 @@ export default function Cart() {
 		setProduct(newProductArr);
 	}
 
+	function onPurchaseHandler() {
+		if (product.length !== 0) {
+			alert('You have completed your purchase.');
+			localStorage.removeItem('CartItem');
+			setPayment(true);
+			navigate('/');
+		} else {
+			alert('Your shopping cart is empty.');
+		}
+	}
+
 	return (
 		<main className={style.main}>
 			<section>
@@ -44,7 +58,7 @@ export default function Cart() {
 					<span className={style.productDelete}>Delete</span>
 				</div>
 				<hr />
-				{product.length === 0 ? (
+				{product.length === 0 || payment === true ? (
 					<NoProduct />
 				) : (
 					product.map((item: Product) => {
@@ -74,7 +88,9 @@ export default function Cart() {
 				<h1>
 					<span className={style.totalPrice}>Total:</span> ${totalPrice}
 				</h1>
-				<button className={style.purchase}>Purchase</button>
+				<button className={style.purchase} onClick={onPurchaseHandler}>
+					Purchase
+				</button>
 			</section>
 		</main>
 	);

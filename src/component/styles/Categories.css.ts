@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const main = style({
-	flex: 2,
 	width: '68vw',
 	margin: '0 auto',
 });
@@ -15,8 +14,7 @@ export const container = style({
 
 export const product = style({
 	display: 'flex',
-	justifyContent: 'center',
-	width: '25%',
+	width: '15rem',
 	flexDirection: 'column',
 	backgroundColor: 'white',
 	border: '1px solid gray',
@@ -25,13 +23,13 @@ export const product = style({
 
 export const imgBox = style({
 	marginTop: 15,
-	height: 210,
+	height: 180,
 	display: 'flex',
 	justifyContent: 'center',
 });
 
 export const textBox = style({
-	height: 80,
+	height: 110,
 	marginTop: 20,
 	textAlign: 'center',
 	display: 'flex',
@@ -44,6 +42,13 @@ export const textBox = style({
 export const productImg = style({
 	width: '150px',
 	margin: '0 auto',
+});
+
+export const titleDiv = style({
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+	height: '100%',
 });
 
 export const productTitle = style({

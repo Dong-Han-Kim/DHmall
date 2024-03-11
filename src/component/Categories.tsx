@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getSpecificCategory } from '../services/api';
 import * as style from './styles/Categories.css';
 import { Link, useLocation } from 'react-router-dom';
+import Loading from './Loading';
 
 interface Product {
 	id: number;
@@ -21,7 +22,7 @@ export function Categories() {
 	});
 
 	if (specific.status === 'pending') {
-		return <h1>Loading...</h1>;
+		return <Loading />;
 	} else if (specific.status === 'error') {
 		return <h1>ERROR: {specific.error.message}</h1>;
 	}
@@ -38,7 +39,9 @@ export function Categories() {
 									<img src={product.image} alt="product image" className={style.productImg} />
 								</div>
 								<div className={style.textBox}>
-									<h2 className={style.productTitle}>{product.title}</h2>
+									<div className={style.titleDiv}>
+										<h2 className={style.productTitle}>{product.title}</h2>
+									</div>
 									<h3 className={style.productPrice}>${Math.floor(product.price)}</h3>
 								</div>
 							</div>

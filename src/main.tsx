@@ -8,9 +8,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Categories } from './component/Categories';
 import Detail from './pages/detail/Detail.tsx';
 import Fashion from './pages/category/fashion.tsx';
-import Cart from './pages/cart/cart.tsx';
+import Cart from './pages/cart/Cart.tsx';
 import Home from './pages/home/Home.tsx';
 import CartContextProvider from './context/CartContext.tsx';
+import Login from './pages/login/Login.tsx';
+import Individual from './pages/individual/Individual.tsx';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
 			{ path: '/fashion/detail/:id', element: <Detail /> },
 			{ path: 'detail/:id', element: <Detail /> },
 			{ path: '/cart', element: <Cart /> },
+			{ path: '/login', element: <Login /> },
+			{ path: '/individual', element: <Individual /> },
 		],
 	},
 ]);

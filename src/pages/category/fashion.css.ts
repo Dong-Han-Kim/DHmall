@@ -40,7 +40,7 @@ export const container = style({
 
 export const product = style({
 	display: 'flex',
-	width: '25%',
+	width: '15rem',
 	flexDirection: 'column',
 	backgroundColor: 'white',
 	border: '1px solid gray',

@@ -4,6 +4,7 @@ import { getSingleProduct } from '../../services/api';
 import * as style from './Detail.css';
 import { useState } from 'react';
 import { useCartContext } from '../../context/CartContext';
+import Loading from '../../component/Loading';
 
 interface Product {
 	id: number;
@@ -26,7 +27,7 @@ export default function Detail() {
 	});
 
 	if (detailFetch.status === 'pending') {
-		return <h1>Loading...</h1>;
+		return <Loading />;
 	} else if (detailFetch.status === 'error') {
 		return <h1>ERROR: {detailFetch.error.message}</h1>;
 	}

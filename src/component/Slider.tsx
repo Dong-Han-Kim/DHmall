@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Slider() {
 	const swiperElRef = useRef(null);
@@ -15,7 +16,7 @@ export function Slider() {
 			ref={swiperElRef}
 			loop={true}
 			slidesPerView={1}
-			navigation={true}
+			navigation={false}
 			pagination={true}
 			spaceBetween={50}
 			autoplay={{
@@ -26,6 +27,9 @@ export function Slider() {
 				return (
 					<SwiperSlide key={item.id}>
 						<img src={item.image} alt={item.id} className={style.slide} />
+						<Link to={item.Link} className={style.slideBtnBox}>
+							<button className={style.slideBtn}>{item.name}</button>
+						</Link>
 					</SwiperSlide>
 				);
 			})}
