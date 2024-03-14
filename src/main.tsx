@@ -13,6 +13,8 @@ import Home from './pages/home/Home.tsx';
 import CartContextProvider from './context/CartContext.tsx';
 import Login from './pages/login/Login.tsx';
 import Individual from './pages/individual/Individual.tsx';
+import SignUp from './pages/signup/SignUp.tsx';
+import AuthContextProvider from './context/AuthContext.tsx';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ const router = createBrowserRouter([
 			{ path: 'detail/:id', element: <Detail /> },
 			{ path: '/cart', element: <Cart /> },
 			{ path: '/login', element: <Login /> },
+			{ path: '/signup', element: <SignUp /> },
 			{ path: '/individual', element: <Individual /> },
 		],
 	},
@@ -38,9 +41,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools initialIsOpen={true} />
-			<CartContextProvider>
-				<RouterProvider router={router} />
-			</CartContextProvider>
+			<AuthContextProvider>
+				<CartContextProvider>
+					<RouterProvider router={router} />
+				</CartContextProvider>
+			</AuthContextProvider>
 		</QueryClientProvider>
 	</React.StrictMode>
 );
