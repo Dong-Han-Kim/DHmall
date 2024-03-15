@@ -4,11 +4,13 @@ import * as style from './styles/Header.css';
 import { Nav } from './Nav';
 import { useCartContext } from '../context/CartContext';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '../context/AuthContext';
 
 export function Header() {
 	const { product } = useCartContext();
 	const [current, setCurrent] = useState(product);
-	const user = false;
+	const { user } = useAuthContext();
+
 	useEffect(() => {
 		setCurrent(product);
 	}, [product]);
