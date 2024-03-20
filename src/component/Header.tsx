@@ -2,14 +2,27 @@ import { Link } from 'react-router-dom';
 import { Cart, SearchIcon, User } from '../assets/icons';
 import * as style from './styles/Header.css';
 import { Nav } from './Nav';
-import { useCartContext } from '../context/CartContext';
+import { useCartContext } from '../context/useCartContext';
 import { useEffect, useState } from 'react';
-import { useAuthContext } from '../context/AuthContext';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export function Header() {
 	const { product } = useCartContext();
 	const [current, setCurrent] = useState(product);
-	const { user } = useAuthContext();
+	const [currentUserState, setCurrentUserState] = useState(false);
+	const auth = getAuth();
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setCurrentUserState(true);
+			} else {
+				setCurrentUserState(false);
+			}
+		});
+	}, [auth]);
+
+	console.log(currentUserState);
 
 	useEffect(() => {
 		setCurrent(product);
@@ -32,19 +45,11 @@ export function Header() {
 				</div>
 
 				<div className={style.individual}>
-					{!user ? (
-						<Link to={'/login'}>
-							<div className={style.user}>
-								<User />
-							</div>
-						</Link>
-					) : (
-						<Link to={'/individual'}>
-							<div className={style.user}>
-								<User />
-							</div>
-						</Link>
-					)}
+					<Link to={!currentUserState ? '/login' : '/individual'}>
+						<div className={style.user}>
+							<User />
+						</div>
+					</Link>
 
 					<div className={style.cart}>
 						<Link to={'/cart'}>

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getSingleProduct } from '../../services/api';
 import * as style from './Detail.css';
 import { useState } from 'react';
-import { useCartContext } from '../../context/CartContext';
+import { useCartContext } from '../../context/useCartContext';
 import Loading from '../../component/Loading';
 
 interface Product {

@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 
-const CartContext = createContext(null);
+export const CartContext = createContext(null);
 
 export default function CartContextProvider({ children }: { children: ReactNode }) {
 	const [product, setProduct] = useState([]);
@@ -15,5 +15,3 @@ export default function CartContextProvider({ children }: { children: ReactNode 
 
 	return <CartContext.Provider value={{ product, setProduct }}>{children}</CartContext.Provider>;
 }
-
-export const useCartContext = () => useContext(CartContext);

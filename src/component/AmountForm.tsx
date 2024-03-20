@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import * as style from './styles/AmountForm.css';
-import { useCartContext } from '../context/CartContext';
+import { useCartContext } from '../context/useCartContext';
 
 interface Product {
 	id: number;

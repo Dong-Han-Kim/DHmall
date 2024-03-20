@@ -3,7 +3,8 @@ import * as style from './SignUp.css';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../services/firebase';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { setDoc, collection, getDocs, query, where, doc } from 'firebase/firestore';
+import { v4 as uuid } from 'uuid';
 
 export default function SignUp() {
 	const [id, setId] = useState('');
@@ -14,6 +15,7 @@ export default function SignUp() {
 
 	async function signUp(e: FormEvent<HTMLButtonElement>) {
 		e.preventDefault();
+		// 비밀번호 체크
 		if (password !== passwordCheck) {
 			return alert('Please check your password.');
 		}
@@ -21,25 +23,28 @@ export default function SignUp() {
 			return alert('Password must be at least 6 characters long.');
 		}
 
+		// 이메일 형식 체크
 		if (!emailRegEx.test(id)) alert('The email format does not fit.');
 
-		const docUser = await getDocs(query(collection(db, 'users'), where('user_id', '==', id)));
+		// 이미 가입된 정보 체크
+		const docUser = await getDocs(query(collection(db, 'users'), where('name', '==', id)));
 		const userArr = [];
 		docUser.forEach((user) => userArr.push(user.data()));
 
-		if (userArr.length > 1) {
+		if (userArr.length >= 1) {
 			return alert('This information has already been registered.');
 		} else if (userArr.length === 0) {
-			const user = await createUserWithEmailAndPassword(auth, id, password);
-			console.log(user);
+			await createUserWithEmailAndPassword(auth, id, password);
 
-			const userDoc = await addDoc(collection(db, 'users'), {
-				user_id: user.user.email,
-				user_password: password,
-			});
-			console.log(userDoc.id);
+			// 신규 가입
+			const userDocId = uuid();
+			const newUser = {
+				id: userDocId,
+				name: id,
+				password: password,
+			};
+			await setDoc(doc(db, 'users', userDocId), newUser);
 		}
-
 		navigate('/login');
 	}
 
