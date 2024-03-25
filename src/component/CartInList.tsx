@@ -5,7 +5,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import { useCartContext } from '../context/useCartContext';
 import { useNavigate } from 'react-router-dom';
 import AmountForm from './AmountForm';
-import { DocumentData, deleteDoc, deleteField, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
 interface Product {
@@ -18,35 +18,81 @@ interface Product {
 	price: number;
 }
 
-interface HistoryProduct {
-	id: string;
-	products: Product[];
-	date: string;
-}
+// interface HistoryProduct {
+// 	id: string | null;
+// 	date: string | null;
+// 	products: Product[] | null;
+// }
 
 export default function CartInList() {
 	const [totalPrice, setTotalPrice] = useState(0);
-	const [userCart, setUseCart] = useState<DocumentData>([]);
-	const { user } = useAuthContext();
-	const { product, setProduct } = useCartContext();
+	const [userCart, setUserCart] = useState([]);
 	const priceArr: number[] = [];
 	const key = 'CartItem';
+	const userUid = localStorage.getItem('userUid');
 	const navigate = useNavigate();
-	const productInCart = {
-		id: user.user_id,
-		products: product,
-	};
+	const date = new Date();
+	const today = `${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`;
 
-	const getProductDate = async () => {
-		try {
-			const data = user && (await getDoc(doc(db, 'cart', user.user_id)));
-			const userCartData = data && data.data();
-			setUseCart(userCartData?.products || []);
-			console.log(userCartData);
-		} catch (error) {
-			console.error('getProductDate Error: ', error);
+	//////////////////////////////////////////////////////////////////////////
+	// 1. product를 가져온다.
+	// 로그인을 안했을 때
+	// 그냥 기존 product를 가져온다.
+	const { product, setProduct } = useCartContext();
+
+	// 로그인을 했을 때
+	const { user } = useAuthContext();
+	// 유저의 카트를 가져온다
+	useEffect(() => {
+		if (user) {
+			const cartData = async () => {
+				const docRef = doc(db, 'cart', userUid);
+				const cartStorage = await getDoc(docRef);
+				console.log(cartStorage.data());
+				if (!cartStorage) {
+					return;
+				} else {
+					// 카트에 product가 들어있으면 그 product를 map으로 돌린다.
+					const data = cartStorage.data();
+					setUserCart(data.product);
+					console.log(data);
+				}
+
+				// 로그인 전에 카트에 들어있는 아이템이 있으면 유저의 카트에 추가한다.
+				if (product.length > 0) {
+					const data = cartStorage.data();
+					setUserCart((prev) => [data.product, ...prev]);
+				}
+			};
+			cartData();
 		}
-	};
+	}, [user, userUid]);
+
+	// 그리고 카트의 아이템을 가져와서 map을 돌린다.
+	setProduct(userCart);
+
+	/////////////////////////////////////////////////////////////////////////
+
+	// 상품의 총 가격
+	useEffect(() => {
+		const result = priceArr.reduce((sum, current) => sum + current, 0);
+		setTotalPrice(result);
+	}, [priceArr]);
+
+	// 기본 구매 버튼 이벤트
+	async function onPurchaseHandler() {
+		if (product.length !== 0) {
+			alert('You have completed your purchase.');
+			localStorage.removeItem(key);
+			setProduct([]);
+			navigate('/');
+		} else {
+			alert('Your shopping cart is empty.');
+		}
+		if (user.loggedState) {
+			historyFn();
+		}
+	}
 
 	// product 삭제
 	function deleteProduct(id: number) {
@@ -55,119 +101,66 @@ export default function CartInList() {
 		setProduct(newProductArr);
 	}
 
-	// 구매 버튼 이벤트
-	async function onPurchaseHandler() {
-		const date = new Date();
-		const today = `${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`;
-		const historyProducts: HistoryProduct = {
-			id: user.user_id,
-			products: product,
-			date: today,
-		};
-
-		try {
-			if (product.length !== 0) {
-				alert('You have completed your purchase.');
-				localStorage.removeItem(key);
-				setProduct([]);
-				navigate('/');
-			} else {
-				alert('Your shopping cart is empty.');
-			}
-			if (user.loggedState) {
-				await setDoc(doc(db, 'history', user.user_id), historyProducts);
-				await deleteDoc(doc(db, 'cart', user.user_id));
-				await updateDoc(doc(db, 'cart', user.user_id), {
-					cartProduct: deleteField(),
-				});
-			}
-		} catch (error) {
-			console.error('onPurchaseHandler Error: ', error);
-		}
-	}
-
 	useEffect(() => {
-		const result = priceArr.reduce((sum, current) => sum + current, 0);
-		setTotalPrice(result);
-	}, [priceArr]);
-
-	if (user.loggedState) {
-		const productUpdate = user && doc(db, 'cart', user.user_id);
-		const cartDocUpdate = async () => {
-			try {
-				await updateDoc(productUpdate, {
-					...productInCart,
-					products: product ? product : null,
+		const upDateUserProducts = [...userCart, product];
+		if (user && user.loggedState) {
+			const cartDocUpdate = async () => {
+				await updateDoc(doc(db, 'cart', userUid), {
+					upDateUserProducts,
 				});
-			} catch (error) {
-				console.error('cartDocUpdate Error: ', error);
-			}
-		};
+			};
+			cartDocUpdate();
+		}
+	}, [product, user, userCart]);
 
-		const cartInUser = async () => {
-			try {
-				await setDoc(doc(db, 'cart', user.user_id), productInCart);
-			} catch (error) {
-				console.error('cartInUser Error: ', error);
-			}
-		};
-		cartInUser();
-		cartDocUpdate();
-		getProductDate();
-	}
-
-	console.log(user);
+	const historyFn = async () => {
+		const docRef = doc(db, 'history', today);
+		const historyStorage = await getDoc(docRef);
+		const historyItem = historyStorage.data();
+		if (historyItem.date !== today) {
+			const history = {
+				date: today,
+				id: user.userId,
+				products: product,
+			};
+			await setDoc(doc(db, 'history', today), {
+				history,
+			});
+		} else if (historyItem.date === today) {
+			const history = {
+				...historyItem,
+				products: [...historyItem.products, product],
+			};
+			await updateDoc(doc(db, 'history', today), {
+				history,
+			});
+		}
+	};
 
 	return (
 		<>
 			<section>
-				{!user.loggedState
-					? product.map((item: Product) => {
-							priceArr.push(Math.floor(item.price) * item.amount);
-							return (
-								<div key={item.id}>
-									<div className={style.productList}>
-										<div className={`${style.productInfo} ${style.product}`}>
-											<img className={style.productImg} src={item.image} alt="product image" />
-											<h4 className={style.productTitle}>{item.title}</h4>
-										</div>
-										<div className={style.productAmount}>
-											<AmountForm id={item.id} amount={item.amount} />
-										</div>
-										<span className={style.productPrice}>
-											${Math.floor(item.price) * item.amount}
-										</span>
-										<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
-											<Trash />
-										</button>
-									</div>
-									<hr />
+				{product.map((item: Product) => {
+					priceArr.push(Math.floor(item.price) * item.amount);
+					return (
+						<div key={item.id}>
+							<div className={style.productList}>
+								<div className={`${style.productInfo} ${style.product}`}>
+									<img className={style.productImg} src={item.image} alt="product image" />
+									<h4 className={style.productTitle}>{item.title}</h4>
 								</div>
-							);
-					  })
-					: userCart.map((item: Product) => {
-							priceArr.push(Math.floor(item.price) * item.amount);
-							return (
-								<div key={item.id}>
-									<div className={style.productList}>
-										<div className={`${style.productInfo} ${style.product}`}>
-											<img className={style.productImg} src={item.image} alt="product image" />
-											<h4 className={style.productTitle}>{item.title}</h4>
-										</div>
-										<div className={style.productAmount}>
-											<AmountForm id={item.id} amount={item.amount} />
-										</div>
-										<span className={style.productPrice}>
-											${Math.floor(item.price) * item.amount}
-										</span>
-										<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
-											<Trash />
-										</button>
-									</div>
-									<hr />
+								<div className={style.productAmount}>
+									<AmountForm id={item.id} amount={item.amount} />
 								</div>
-							);
-					  })}
+								<span className={style.productPrice}>${Math.floor(item.price) * item.amount}</span>
+								<button className={style.productDelete} onClick={() => deleteProduct(item.id)}>
+									<Trash />
+								</button>
+							</div>
+							<hr />
+						</div>
+					);
+				})}
 			</section>
 			<section className={style.cartBottom}>
 				<h1>

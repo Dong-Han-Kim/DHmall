@@ -47,13 +47,11 @@ export default function Detail() {
 			const update = product.map((item: Product) => {
 				if (item.id === productDetail.id) {
 					setAmount((prev) => prev + amount);
-					console.log({ ...item, amount: item.amount + amount });
 					return { ...item, amount: item.amount + amount };
 				} else {
 					return item;
 				}
 			});
-			console.log(update);
 			localStorage.setItem(key, JSON.stringify(update));
 			setProduct(update);
 		}

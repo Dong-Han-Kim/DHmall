@@ -2,33 +2,39 @@ import { getAuth, signOut } from 'firebase/auth';
 import { PurchaseCompleted } from '../../assets/icons';
 import * as style from './Individual.css';
 import { useNavigate } from 'react-router-dom';
-import { DocumentData, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from '../../context/useAuthContext';
+import { useCartContext } from '../../context/useCartContext';
 
 export default function Individual() {
 	const { user } = useAuthContext();
-	const [history, setHistory] = useState<DocumentData>([]);
+	const { setProduct } = useCartContext();
+	const [history, setHistory] = useState();
+	const userUid = localStorage.getItem('userUid');
+
 	const auth = getAuth();
 	const navigate = useNavigate();
-	const getProductDate = async () => {
+
+	const getProductDate = useCallback(async () => {
 		try {
-			const data = user && (await getDoc(doc(db, 'history', user.user_id)));
-			const historyData = data && data.data();
-			setHistory([
-				{
-					date: historyData?.date || '',
-					products: historyData?.product || [],
-				},
-			]);
+			if (user && user.loggedState) {
+				const docRef = doc(db, 'history', userUid);
+				const historyData = await getDoc(docRef);
+				const data = historyData.data();
+				if (data) {
+					setHistory(data.data);
+				}
+			}
 		} catch (error) {
 			console.error('getProductDate Error: ', error);
 		}
-	};
-	if (user.loggedState) {
+	}, [user]);
+
+	useEffect(() => {
 		getProductDate();
-	}
+	}, [getProductDate]);
 
 	console.log(history);
 
@@ -44,6 +50,8 @@ export default function Individual() {
 					onClick={() => {
 						signOut(auth);
 						navigate('/');
+						setProduct([]);
+						localStorage.removeItem('userUid');
 					}}>
 					Log out
 				</button>

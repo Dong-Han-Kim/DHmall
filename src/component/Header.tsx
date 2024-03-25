@@ -3,30 +3,14 @@ import { Cart, SearchIcon, User } from '../assets/icons';
 import * as style from './styles/Header.css';
 import { Nav } from './Nav';
 import { useCartContext } from '../context/useCartContext';
-import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useAuthContext } from '../context/useAuthContext';
 
 export function Header() {
 	const { product } = useCartContext();
-	const [current, setCurrent] = useState(product);
-	const [currentUserState, setCurrentUserState] = useState(false);
-	const auth = getAuth();
 
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				setCurrentUserState(true);
-			} else {
-				setCurrentUserState(false);
-			}
-		});
-	}, [auth]);
-
-	console.log(currentUserState);
-
-	useEffect(() => {
-		setCurrent(product);
-	}, [product]);
+	const { user } = useAuthContext();
 
 	return (
 		<header className={style.container}>
@@ -45,7 +29,7 @@ export function Header() {
 				</div>
 
 				<div className={style.individual}>
-					<Link to={!currentUserState ? '/login' : '/individual'}>
+					<Link to={!user ? '/login' : '/individual'}>
 						<div className={style.user}>
 							<User />
 						</div>
@@ -54,7 +38,7 @@ export function Header() {
 					<div className={style.cart}>
 						<Link to={'/cart'}>
 							<Cart />
-							{current.length === 0 ? null : <div className={style.cartLength}>{current.length}</div>}
+							{product.length === 0 ? null : <div className={style.cartLength}>{product.length}</div>}
 						</Link>
 					</div>
 				</div>

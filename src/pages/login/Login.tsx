@@ -13,10 +13,6 @@ export default function Login() {
 		e.preventDefault();
 		const user = await signInWithEmailAndPassword(auth, id, password);
 		console.log(user.user.email);
-
-		if (user.user.email) {
-			localStorage.setItem('user', JSON.stringify(user.user.email));
-		}
 		navigate('/');
 	}
 
