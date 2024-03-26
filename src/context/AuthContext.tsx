@@ -3,15 +3,13 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 // 초기 상태 타입
 interface InitialState {
-	loggedState: boolean;
-	userId: string;
+	id: string;
 }
 
 export const AuthContext = createContext(null);
 
 const initialState: InitialState = {
-	loggedState: false,
-	userId: '',
+	id: '',
 };
 
 export default function AuthContextProvider({ children }: { children: ReactNode }) {
@@ -21,9 +19,9 @@ export default function AuthContextProvider({ children }: { children: ReactNode 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				setUser({ loggedState: true, userId: user.uid });
+				setUser({ id: user.uid });
 				console.log(user);
-				localStorage.setItem('userUid', user.uid);
+				localStorage.setItem('userUid', JSON.stringify(user.uid));
 			} else {
 				setUser(null);
 			}

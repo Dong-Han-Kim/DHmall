@@ -12,7 +12,6 @@ export default function Individual() {
 	const { user } = useAuthContext();
 	const { setProduct } = useCartContext();
 	const [history, setHistory] = useState();
-	const userUid = localStorage.getItem('userUid');
 
 	const auth = getAuth();
 	const navigate = useNavigate();
@@ -20,7 +19,7 @@ export default function Individual() {
 	const getProductDate = useCallback(async () => {
 		try {
 			if (user && user.loggedState) {
-				const docRef = doc(db, 'history', userUid);
+				const docRef = doc(db, 'history', user.id);
 				const historyData = await getDoc(docRef);
 				const data = historyData.data();
 				if (data) {
@@ -51,7 +50,7 @@ export default function Individual() {
 						signOut(auth);
 						navigate('/');
 						setProduct([]);
-						localStorage.removeItem('userUid');
+						localStorage.removeItem('cartItem');
 					}}>
 					Log out
 				</button>

@@ -9,7 +9,6 @@ import { useAuthContext } from '../context/useAuthContext';
 
 export function Header() {
 	const { product } = useCartContext();
-
 	const { user } = useAuthContext();
 
 	return (

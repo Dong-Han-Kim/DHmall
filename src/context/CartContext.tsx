@@ -17,48 +17,36 @@ export const CartContext = createContext(null);
 
 export default function CartContextProvider({ children }: { children: ReactNode }) {
 	const [product, setProduct] = useState<Product[]>([]);
-	const [userCart, setUserCart] = useState<Product[]>([]);
 	const { user } = useAuthContext();
+	const USER_ID = localStorage.getItem('userUid');
 	const key = 'CartItem';
-	const userUid = localStorage.getItem('userUid');
 	const getProduct = localStorage.getItem(key);
-	const productObj = getProduct ? JSON.parse(getProduct) : null;
 
 	useEffect(() => {
-		if (user && userUid) {
-			const getUserCart = async () => {
-				const docRef = doc(db, 'cart', userUid);
-				const cartStorage = await getDoc(docRef);
-				const data = cartStorage.data();
-				if (data) {
-					setUserCart(data.product);
+		if (!user) {
+			const productObj = getProduct ? JSON.parse(getProduct) : null;
+			if (!productObj || productObj.length === 0) return;
+			setProduct(productObj);
+		} else {
+			const getUserProduct = async () => {
+				const docRef = doc(db, 'cart', USER_ID);
+				const getCartDoc = await getDoc(docRef);
+				const getCartProduct = getCartDoc.data();
+				if (!getCartProduct) {
+					await setDoc(doc(db, 'cart', USER_ID), { product });
 				} else {
-					await setDoc(docRef, { product });
-					setUserCart([]);
+					setProduct((prev) => [getCartProduct.product, ...prev]);
+					updateCart();
 				}
 			};
-			getUserCart();
+			getUserProduct();
 		}
-	}, [user, userUid, product]);
+	}, [getProduct, user]);
 
-	useEffect(() => {
-		if (userCart.length > 0 && userUid) {
-			const upDateUserProducts: Product[] = [...userCart, ...product];
-			const cartDocUpdate = async () => {
-				const docRef = doc(db, 'cart', userUid);
-				await updateDoc(docRef, {
-					product: upDateUserProducts,
-				});
-			};
-			cartDocUpdate();
-		}
-		return setProduct(userCart);
-	}, []);
-
-	useEffect(() => {
-		if (!productObj || productObj.length === 0) return;
-		setProduct(productObj);
-	}, [getProduct, productObj]);
+	const updateCart = async () => {
+		const docRef = doc(db, 'cart', USER_ID);
+		await updateDoc(docRef, { product });
+	};
 
 	return <CartContext.Provider value={{ product, setProduct }}>{children}</CartContext.Provider>;
 }
