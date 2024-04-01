@@ -18,17 +18,6 @@ interface Product {
 	price: number;
 }
 
-// database 구조
-// uid = [{
-// id: number;
-// title: string;
-// category: string;
-// amount: number;
-// description: string;
-// image: string;
-// price: number
-// }];
-
 export default function CartInList() {
 	const { product, setProduct } = useCartContext();
 	const { user } = useAuthContext();
@@ -51,7 +40,7 @@ export default function CartInList() {
 		if (product.length !== 0) {
 			alert('You have completed your purchase.');
 			localStorage.removeItem(key);
-			setProduct([]);
+			setProduct();
 			navigate('/');
 		} else {
 			alert('Your shopping cart is empty.');

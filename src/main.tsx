@@ -15,6 +15,7 @@ import Login from './pages/login/Login.tsx';
 import Individual from './pages/individual/Individual.tsx';
 import SignUp from './pages/signup/SignUp.tsx';
 import AuthContextProvider from './context/AuthContext.tsx';
+import SearchPage from './pages/search/SearchPage.tsx';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
 			{ path: '/login', element: <Login /> },
 			{ path: '/signup', element: <SignUp /> },
 			{ path: '/individual', element: <Individual /> },
+			{ path: '/search/:searchItem', element: <SearchPage /> },
 		],
 	},
 ]);

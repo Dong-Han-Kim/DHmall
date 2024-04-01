@@ -18,7 +18,7 @@ interface Product {
 
 export default function Detail() {
 	const { id } = useParams() as { id: string };
-	const { product, setProduct } = useCartContext();
+	const { product, setProduct } = useCartContext(); // setProduct
 	const [amount, setAmount] = useState<number>(1);
 	const key = 'CartItem';
 	const detailFetch = useQuery({

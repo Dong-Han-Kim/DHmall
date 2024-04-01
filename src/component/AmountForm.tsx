@@ -13,7 +13,8 @@ interface Product {
 
 export default function AmountForm({ id, amount }: { id: number; amount: number }): ReactNode {
 	const [productAmount, setProductAmount] = useState(amount);
-	const { product } = useCartContext();
+	const { product } = useCartContext(); // setProduct
+	const key = 'CartItem';
 
 	if (productAmount <= 0) {
 		setProductAmount(1);
@@ -32,7 +33,7 @@ export default function AmountForm({ id, amount }: { id: number; amount: number 
 					item.amount = productAmount;
 				}
 			});
-			localStorage.setItem('CartItem', JSON.stringify(product));
+			localStorage.setItem(key, JSON.stringify(product));
 		}
 		amountSave();
 	}, [id, product, productAmount]);

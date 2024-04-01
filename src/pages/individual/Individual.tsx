@@ -6,11 +6,9 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from '../../context/useAuthContext';
-import { useCartContext } from '../../context/useCartContext';
 
 export default function Individual() {
 	const { user } = useAuthContext();
-	const { setProduct } = useCartContext();
 	const [history, setHistory] = useState();
 
 	const auth = getAuth();
@@ -37,6 +35,13 @@ export default function Individual() {
 
 	console.log(history);
 
+	function Logout() {
+		signOut(auth);
+		navigate('/');
+		localStorage.removeItem('CartItem');
+		localStorage.removeItem('userUid');
+	}
+
 	return (
 		<main className={style.main}>
 			<section className={style.title}>
@@ -45,15 +50,7 @@ export default function Individual() {
 			</section>
 			<section>
 				<h1>준비중</h1>
-				<button
-					onClick={() => {
-						signOut(auth);
-						navigate('/');
-						setProduct([]);
-						localStorage.removeItem('cartItem');
-					}}>
-					Log out
-				</button>
+				<button onClick={Logout}>Log out</button>
 			</section>
 		</main>
 	);

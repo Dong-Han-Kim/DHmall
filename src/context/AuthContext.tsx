@@ -20,7 +20,6 @@ export default function AuthContextProvider({ children }: { children: ReactNode 
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
 				setUser({ id: user.uid });
-				console.log(user);
 				localStorage.setItem('userUid', JSON.stringify(user.uid));
 			} else {
 				setUser(null);
@@ -28,5 +27,5 @@ export default function AuthContextProvider({ children }: { children: ReactNode 
 		});
 	}, [auth]);
 
-	return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 }

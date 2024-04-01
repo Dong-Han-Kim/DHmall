@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import { useAuthContext } from './useAuthContext';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
+import { useAuthContext } from './useAuthContext';
 
 interface Product {
 	id: number;
@@ -20,33 +20,32 @@ export default function CartContextProvider({ children }: { children: ReactNode 
 	const { user } = useAuthContext();
 	const USER_ID = localStorage.getItem('userUid');
 	const key = 'CartItem';
-	const getProduct = localStorage.getItem(key);
 
 	useEffect(() => {
-		if (!user) {
-			const productObj = getProduct ? JSON.parse(getProduct) : null;
-			if (!productObj || productObj.length === 0) return;
+		const getProduct = localStorage.getItem(key);
+		const productObj = JSON.parse(getProduct);
+		if (productObj) {
 			setProduct(productObj);
-		} else {
-			const getUserProduct = async () => {
-				const docRef = doc(db, 'cart', USER_ID);
-				const getCartDoc = await getDoc(docRef);
-				const getCartProduct = getCartDoc.data();
-				if (!getCartProduct) {
-					await setDoc(doc(db, 'cart', USER_ID), { product });
-				} else {
-					setProduct((prev) => [getCartProduct.product, ...prev]);
-					updateCart();
-				}
-			};
-			getUserProduct();
 		}
-	}, [getProduct, user]);
+	}, [user]);
 
-	const updateCart = async () => {
-		const docRef = doc(db, 'cart', USER_ID);
-		await updateDoc(docRef, { product });
-	};
-
+	if (user && USER_ID) {
+		const getUserProduct = async () => {
+			const docRef = doc(db, 'cart', USER_ID);
+			const getCartDoc = await getDoc(docRef);
+			const getCartProduct = getCartDoc.data();
+			if (!getCartProduct) {
+				await setDoc(doc(db, 'cart', USER_ID), { product });
+				return;
+			} else {
+				const updateCart = async () => {
+					const docRef = doc(db, 'cart', USER_ID);
+					await updateDoc(docRef, { product });
+				};
+				updateCart();
+			}
+		};
+		getUserProduct();
+	}
 	return <CartContext.Provider value={{ product, setProduct }}>{children}</CartContext.Provider>;
 }
