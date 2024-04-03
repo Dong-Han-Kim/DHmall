@@ -5,7 +5,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import { useCartContext } from '../context/useCartContext';
 import { useNavigate } from 'react-router-dom';
 import AmountForm from './AmountForm';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
 interface Product {
@@ -18,16 +18,27 @@ interface Product {
 	price: number;
 }
 
+interface History {
+	date: string;
+	products: Product[];
+}
+
+interface HistoryDoc {
+	id: string;
+	history: History[];
+}
+
 export default function CartInList() {
 	const { product, setProduct } = useCartContext();
 	const { user } = useAuthContext();
 	const [totalPrice, setTotalPrice] = useState(0);
-	const [historyList, setHistoryList] = useState<Product[]>();
+	const [historyDoc, setHistoryDoc] = useState<HistoryDoc>();
 	const priceArr: number[] = [];
 	const key = 'CartItem';
+	const USER_ID = localStorage.getItem('userUid');
 	const navigate = useNavigate();
 	const date = new Date();
-	const today = `${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`;
+	const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
 	// 상품의 총 가격
 	useEffect(() => {
@@ -35,18 +46,45 @@ export default function CartInList() {
 		setTotalPrice(result);
 	}, [priceArr]);
 
+	useEffect(() => {
+		if (user) {
+			const getHistory = async () => {
+				const docRef = doc(db, 'history', USER_ID);
+				const docSnap = await getDoc(docRef);
+				const data = docSnap.data();
+				console.log(data.userHistory);
+				setHistoryDoc(data.userHistory);
+			};
+			getHistory();
+		}
+	}, [user, USER_ID]);
+
 	// 기본 구매 버튼 이벤트
 	async function onPurchaseHandler() {
 		if (product.length !== 0) {
 			alert('You have completed your purchase.');
+			const updateHistory = historyDoc.history.filter((item) => item.date === today);
+
+			if (user) {
+				const updateCart = async () => {
+					const docRef = doc(db, 'history', USER_ID);
+					await updateDoc(docRef, {
+						...historyDoc,
+						history: [
+							{
+								...history,
+								products: [...updateHistory[0].products, product],
+							},
+						],
+					});
+				};
+				updateCart();
+			}
 			localStorage.removeItem(key);
-			setProduct();
+			setProduct([]);
 			navigate('/');
 		} else {
 			alert('Your shopping cart is empty.');
-		}
-		if (user.loggedState) {
-			historyFn();
 		}
 	}
 
@@ -56,27 +94,6 @@ export default function CartInList() {
 		localStorage.setItem(key, JSON.stringify(newProductArr));
 		setProduct(newProductArr);
 	}
-
-	const historyFn = async () => {
-		const docRef = doc(db, 'history', today);
-		const historyStorage = await getDoc(docRef);
-		const history = {
-			date: today,
-			id: user.userId,
-			products: product,
-		};
-		if (!historyStorage) {
-			await setDoc(docRef, history);
-		} else {
-			const userHistory = historyStorage.data();
-			setHistoryList((prev) => [...prev, userHistory.product]);
-		}
-		const newHistory = {
-			...history,
-			products: historyList,
-		};
-		await updateDoc(docRef, newHistory);
-	};
 
 	return (
 		<>

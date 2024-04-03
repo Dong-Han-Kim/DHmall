@@ -16,7 +16,7 @@ export default function Cart() {
 					<span className={style.productDelete}>Delete</span>
 				</div>
 				<hr />
-				{!product ? <NoProduct /> : <CartInList />}
+				{product.length === 0 ? <NoProduct /> : <CartInList />}
 			</section>
 		</main>
 	);
