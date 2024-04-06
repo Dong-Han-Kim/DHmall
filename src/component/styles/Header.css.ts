@@ -36,10 +36,11 @@ export const search = style({
 
 // User section
 export const individual = style({
-	width: 150,
+	width: 200,
 	display: 'flex',
 	justifyContent: 'space-between',
-	marginRight: '4rem',
+	margin: '0 4rem',
+	alignItems: 'center',
 });
 
 export const cart = style({
@@ -66,4 +67,12 @@ export const cartLength = style({
 export const user = style({
 	width: 40,
 	cursor: 'pointer',
+	marginRight: 20,
+});
+
+export const profileImg = style({
+	width: '50px',
+	height: '50px',
+	border: '3px solid black',
+	borderRadius: '50%',
 });

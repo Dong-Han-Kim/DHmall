@@ -24,7 +24,7 @@ export function Header() {
 				<div className={style.individual}>
 					<Link to={!user ? '/login' : '/individual'}>
 						<div className={style.user}>
-							<User />
+							{!user.image ? <User /> : <img src={user.image} className={style.profileImg} />}
 						</div>
 					</Link>
 
