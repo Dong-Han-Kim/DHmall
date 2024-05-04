@@ -2,14 +2,14 @@ import { style } from '@vanilla-extract/css';
 
 export const productList = style({
 	display: 'flex',
-	width: '100%',
+	width: '68vw',
 	padding: 20,
 	alignItems: 'center',
 	justifyContent: 'space-between',
 });
 
 export const productInfo = style({
-	flex: 4,
+	width: '38vw',
 	textAlign: 'center',
 });
 
@@ -21,7 +21,7 @@ export const product = style({
 
 export const productImg = style({
 	width: '5rem',
-	marginRight: 20,
+	marginRight: '1vw',
 });
 
 export const productTitle = style({
@@ -29,12 +29,11 @@ export const productTitle = style({
 });
 
 export const productAmount = style({
-	flex: 1,
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
-	marginRight: 25,
+	width: '9vw',
 });
 
 export const productPrice = style({
@@ -42,8 +41,7 @@ export const productPrice = style({
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
-	width: 150,
-	marginRight: 28,
+	width: '9vw',
 });
 
 export const productDelete = style({
@@ -51,9 +49,15 @@ export const productDelete = style({
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
+	border: '1px solid black',
+	borderRadius: '5px',
 	backgroundColor: 'transparent',
-	width: 150,
-	marginRight: 15,
+	width: '9vw',
+	':hover': {
+		color: 'white',
+		backgroundColor: 'rgb(0, 150, 255)',
+		border: 'none',
+	},
 });
 
 export const cartBottom = style({
@@ -68,4 +72,12 @@ export const totalPrice = style({
 
 export const purchase = style({
 	marginLeft: 20,
+	backgroundColor: 'transparent',
+	border: '1px solid black',
+	borderRadius: '5px',
+	':hover': {
+		color: 'white',
+		backgroundColor: 'rgb(0, 150, 255)',
+		border: 'none',
+	},
 });

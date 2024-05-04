@@ -39,8 +39,9 @@ export const price = style({
 });
 
 export const count = style({
-	width: '11rem',
+	width: '3rem',
 	height: '2rem',
+	textAlign: 'center',
 });
 
 ///////////////////////////////////////////////////
@@ -49,7 +50,6 @@ export const form = style({
 	display: 'flex',
 	justifyContent: 'center',
 	alignItems: 'center',
-	width: 250,
 	marginLeft: 'auto',
 });
 
@@ -68,12 +68,6 @@ export const button = style({
 	margin: '0 5px',
 });
 
-export const input = style({
-	width: 50,
-	height: 25,
-	borderRadius: 5,
-	border: '1px solid black',
-});
 ///////////////////////////////////////////////////////////////
 
 export const goToCart = style({
@@ -106,4 +100,9 @@ export const bottom = style({
 	margin: '0 auto',
 	fontSize: '1.25rem',
 	padding: 15,
+	textAlign: 'center',
+});
+
+export const description = style({
+	margin: 20,
 });

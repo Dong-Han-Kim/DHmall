@@ -17,12 +17,12 @@ export const productInfoBox = style({
 });
 
 export const productInfo = style({
-	flex: 4,
+	width: '38vw',
 	textAlign: 'center',
 });
 
 export const productAmount = style({
-	flex: 1,
+	width: '9vw',
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',
@@ -30,7 +30,7 @@ export const productAmount = style({
 });
 
 export const productPrice = style({
-	flex: 1,
+	width: '9vw',
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',
@@ -38,7 +38,7 @@ export const productPrice = style({
 });
 
 export const productDelete = style({
-	flex: 1,
+	width: '9vw',
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',

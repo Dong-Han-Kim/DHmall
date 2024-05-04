@@ -102,6 +102,7 @@ export default function Detail() {
 			</section>
 			<hr className={style.division} />
 			<section className={style.bottom}>
+				<h1 className={style.description}>Description</h1>
 				<p>{productDetail.description}</p>
 			</section>
 		</>
