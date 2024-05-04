@@ -41,9 +41,40 @@ export const price = style({
 export const count = style({
 	width: '11rem',
 	height: '2rem',
+});
+
+///////////////////////////////////////////////////
+export const form = style({
+	fontWeight: 'bolder',
 	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+	width: 250,
 	marginLeft: 'auto',
 });
+
+export const button = style({
+	fontSize: 20,
+	background: 'none',
+	border: '1px solid black',
+	borderRadius: '5px',
+	width: 20,
+	padding: 0,
+	':hover': {
+		color: 'white',
+		backgroundColor: 'rgb(0, 150, 255)',
+		border: 'none',
+	},
+	margin: '0 5px',
+});
+
+export const input = style({
+	width: 50,
+	height: 25,
+	borderRadius: 5,
+	border: '1px solid black',
+});
+///////////////////////////////////////////////////////////////
 
 export const goToCart = style({
 	width: 'fit-content',

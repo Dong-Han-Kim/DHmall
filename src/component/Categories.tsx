@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { getSpecificCategory } from '../services/api';
 import * as style from './styles/Categories.css';
 import { Link, useLocation } from 'react-router-dom';
-import Loading from './Loading';
 
 interface Product {
 	id: number;
@@ -16,17 +15,15 @@ export function Categories() {
 	const location = useLocation();
 	const category = location.pathname;
 
-	const specific = useQuery({
+	const { data, isError, error } = useSuspenseQuery({
 		queryKey: ['specificCategory', category],
 		queryFn: () => getSpecificCategory(category),
 	});
 
-	if (specific.status === 'pending') {
-		return <Loading />;
-	} else if (specific.status === 'error') {
-		return <h1>ERROR: {specific.error.message}</h1>;
+	if (isError) {
+		return <h1>ERROR: {error.message}</h1>;
 	}
-	const products = specific.data.specificCategory;
+	const products = data.specificCategory;
 
 	return (
 		<main className={style.main}>

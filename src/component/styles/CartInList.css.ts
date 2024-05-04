@@ -34,22 +34,26 @@ export const productAmount = style({
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
+	marginRight: 25,
 });
 
 export const productPrice = style({
-	flex: 1,
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
+	width: 150,
+	marginRight: 28,
 });
 
 export const productDelete = style({
-	flex: 1,
 	display: 'flex',
 	textAlign: 'center',
 	justifyContent: 'center',
 	alignItems: 'center',
+	backgroundColor: 'transparent',
+	width: 150,
+	marginRight: 15,
 });
 
 export const cartBottom = style({

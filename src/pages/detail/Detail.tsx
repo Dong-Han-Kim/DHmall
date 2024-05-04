@@ -18,9 +18,8 @@ interface Product {
 
 export default function Detail() {
 	const { id } = useParams() as { id: string };
-	const { product, setProduct } = useCartContext(); // setProduct
+	const { product, setProduct } = useCartContext();
 	const [amount, setAmount] = useState<number>(1);
-	const key = 'CartItem';
 	const detailFetch = useQuery({
 		queryKey: ['singleProduct', id],
 		queryFn: () => getSingleProduct(id),
@@ -31,8 +30,9 @@ export default function Detail() {
 	} else if (detailFetch.status === 'error') {
 		return <h1>ERROR: {detailFetch.error.message}</h1>;
 	}
-	const productDetail = detailFetch.data.singleProduct;
-	const isAlreadyInCart = product.findIndex((item: Product) => item.id === productDetail.id) !== -1;
+
+	const productDetail = detailFetch?.data.singleProduct;
+	const isAlreadyInCart = product.findIndex((item: Product) => item?.id === productDetail?.id) !== -1;
 
 	const selectItem: Product = {
 		...productDetail,
@@ -41,21 +41,27 @@ export default function Detail() {
 
 	function addTocartHandler() {
 		if (!isAlreadyInCart) {
-			localStorage.setItem(key, JSON.stringify([...product, selectItem]));
 			setProduct([...product, selectItem]);
 		} else if (isAlreadyInCart) {
 			const update = product.map((item: Product) => {
 				if (item.id === productDetail.id) {
 					setAmount((prev) => prev + amount);
 					return { ...item, amount: item.amount + amount };
-				} else {
-					return item;
 				}
 			});
-			localStorage.setItem(key, JSON.stringify(update));
 			setProduct(update);
 		}
 	}
+
+	const decrease = () => {
+		if (amount > 1) {
+			setAmount(amount - 1);
+		}
+	};
+
+	const increase = () => {
+		setAmount(amount + 1);
+	};
 
 	return (
 		<>
@@ -66,17 +72,27 @@ export default function Detail() {
 				<div className={style.info}>
 					<h1 className={style.title}>{productDetail.title}</h1>
 					<h3 className={style.price}>${Math.floor(productDetail.price)}</h3>
-					<input
-						className={style.count}
-						type="number"
-						name="amount"
-						placeholder="1"
-						min={1}
-						value={amount}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-							setAmount(Number(e.target.value));
-						}}
-					/>
+					<div className={style.form}>
+						<button className={style.button} onClick={decrease}>
+							-
+						</button>
+						<input
+							className={style.count}
+							type="number"
+							name="amount"
+							placeholder="1"
+							min={1}
+							value={amount}
+							readOnly
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+								setAmount(Number(e.target.value));
+							}}
+						/>
+						<button className={style.button} onClick={increase}>
+							+
+						</button>
+					</div>
+
 					<Link to={'/cart'} className={style.goToCart}>
 						<button className={style.addToCart} onClick={addTocartHandler}>
 							Add to Cart

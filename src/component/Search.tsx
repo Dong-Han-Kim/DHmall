@@ -10,6 +10,7 @@ export default function Search() {
 			<form className={style.searchForm}>
 				<input
 					type="text"
+					name="search"
 					placeholder="Search"
 					className={style.searchInput}
 					onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value.toLowerCase())}

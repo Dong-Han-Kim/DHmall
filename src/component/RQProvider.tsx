@@ -1,19 +1,13 @@
-import React, { Suspense, useState, lazy } from 'react';
+import React, { Suspense, useState } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Loading from './Loading';
 
 type Props = {
 	children: React.ReactNode;
 };
 
-const ReactQueryDevtoolsProduction = lazy(() =>
-	import('@tanstack/react-query-devtools/build/modern/production.js').then((d) => ({
-		default: d.ReactQueryDevtools,
-	}))
-);
-
 function RQProvider({ children }: Props) {
-	const [showDevtools, setShowDevtools] = useState(false);
 	const [client] = useState(
 		new QueryClient({
 			defaultOptions: {
@@ -30,13 +24,10 @@ function RQProvider({ children }: Props) {
 
 	return (
 		<QueryClientProvider client={client}>
-			{children}
-			<ReactQueryDevtools initialIsOpen={true} />
-			{showDevtools && (
-				<Suspense fallback={null}>
-					<ReactQueryDevtoolsProduction />
-				</Suspense>
-			)}
+			<Suspense fallback={<Loading />}>
+				{children}
+				<ReactQueryDevtools initialIsOpen={true} />
+			</Suspense>
 		</QueryClientProvider>
 	);
 }

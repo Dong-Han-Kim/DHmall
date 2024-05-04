@@ -13,33 +13,38 @@ interface Product {
 
 export default function AmountForm({ id, amount }: { id: number; amount: number }): ReactNode {
 	const [productAmount, setProductAmount] = useState(amount);
-	const { product } = useCartContext(); // setProduct
-	const key = 'CartItem';
+	const { product, setProduct } = useCartContext();
+	// const key = 'CartItem';
 
 	if (productAmount <= 0) {
 		setProductAmount(1);
 	}
+
 	const decrease = () => {
 		setProductAmount(productAmount - 1);
 	};
+
 	const increase = () => {
 		setProductAmount(productAmount + 1);
 	};
 
 	useEffect(() => {
-		function amountSave() {
-			product.find((item: Product) => {
-				if (item.id === id) {
-					item.amount = productAmount;
+		// 이 부분에서 product 배열이 업데이트되었는지 확인하고, 업데이트된 경우에만 setProduct 함수 호출
+		if (productAmount !== product.find((item: Product) => item.id === id)?.amount) {
+			const updatedProduct = product.map((item: Product) => {
+				if (item?.id === id) {
+					return { ...item, amount: productAmount };
 				}
+				return item; // 다른 상품은 그대로 유지
 			});
-			localStorage.setItem(key, JSON.stringify(product));
+			// localStorage.setItem(key, JSON.stringify(updatedProduct));
+			console.log(product);
+			setProduct(updatedProduct);
 		}
-		amountSave();
-	}, [id, product, productAmount]);
+	}, [productAmount, id, product]);
 
 	return (
-		<form className={style.form}>
+		<div className={style.form}>
 			<button className={style.button} onClick={decrease}>
 				-
 			</button>
@@ -47,6 +52,6 @@ export default function AmountForm({ id, amount }: { id: number; amount: number 
 			<button className={style.button} onClick={increase}>
 				+
 			</button>
-		</form>
+		</div>
 	);
 }

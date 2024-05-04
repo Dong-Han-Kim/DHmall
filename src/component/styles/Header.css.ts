@@ -44,9 +44,16 @@ export const individual = style({
 });
 
 export const cart = style({
+	display: 'flex',
 	width: 40,
+	height: 40,
 	marginLeft: '3rem',
 	cursor: 'pointer',
+});
+
+export const cartLink = style({
+	display: 'flex',
+	alignItems: 'center',
 });
 
 export const cartLength = style({
@@ -58,8 +65,8 @@ export const cartLength = style({
 	width: 20,
 	height: 20,
 	zIndex: 5,
-	top: -50,
-	right: -25,
+	top: -15,
+	right: 10,
 	textAlign: 'center',
 	fontSize: 15,
 });
