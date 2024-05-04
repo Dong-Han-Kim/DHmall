@@ -1,30 +1,15 @@
-# React + TypeScript + Vite
+# DHmall
+***
+Fake store api를 사용하여 만든 쇼핑몰입니다.
+주요 기능들만 추가하여 간략하게 제작하였습니다.
+***
+## 사용기술
+React.js, TypeScript, React Query, Vanilla Extract, Firebase
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+### Vanilla Extract 사용이유
+Runtime CSS in js의 문제점을 해결하기 위해 만들어졌다고 해서 궁금했습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+그래서 알아보던 중에 해당 프로젝트에서 사용하는 타입스크립트와 함께 사용하기 좋다는 정보와 CSS module처럼 사용할 수 있다는 정보를 얻어서
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+해당 프로젝트에 적용해보면 좋을 것 같다는 판단에 사용하게 되었습니다.
