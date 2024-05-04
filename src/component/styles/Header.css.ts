@@ -17,7 +17,7 @@ export const headerTop = style({
 	width: '100%',
 	flexDirection: 'row',
 	justifyContent: 'space-evenly',
-	padding: '1rem 5rem',
+	padding: '1rem 6rem',
 });
 
 export const logo = style({
@@ -34,20 +34,11 @@ export const search = style({
 	alignItems: 'center',
 });
 
-// User section
-export const individual = style({
-	width: 200,
-	display: 'flex',
-	justifyContent: 'space-between',
-	margin: '0 4rem',
-	alignItems: 'center',
-});
-
 export const cart = style({
 	display: 'flex',
 	width: 40,
 	height: 40,
-	marginLeft: '3rem',
+	marginRight: '4.5rem',
 	cursor: 'pointer',
 });
 

@@ -87,7 +87,9 @@ export const addToCart = style({
 		backgroundColor: 'rgb(0, 150, 255)',
 		color: 'white',
 	},
-	border: '1p solid black',
+	border: '1px solid black',
+	borderRadius: '5px',
+	outline: 'none',
 });
 
 export const division = style({
