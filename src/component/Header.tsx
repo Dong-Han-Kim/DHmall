@@ -12,7 +12,7 @@ export function Header() {
 		<header className={style.container}>
 			<section className={style.headerTop}>
 				<Link to={'/'}>
-					<img src="/logo.png" alt="logo" className={style.logo} />
+					<img src="/shop/logo.png" alt="logo" className={style.logo} />
 				</Link>
 
 				<div className={style.search}>

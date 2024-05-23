@@ -1,19 +1,19 @@
 export const items = [
 	{
 		id: 'electronics',
-		image: '/electronics.jpg',
+		image: '/shop/electronics.jpg',
 		name: 'Electronics',
 		Link: '/electronics',
 	},
 	{
 		id: 'fashion',
-		image: '/fashion.jpg',
+		image: '/shop/fashion.jpg',
 		name: 'Fashion',
 		Link: '/fashion',
 	},
 	{
 		id: 'jewelry',
-		image: '/jewelry.jpg',
+		image: '/shop/jewelry.jpg',
 		name: 'Jewelry',
 		Link: '/jewelery',
 	},

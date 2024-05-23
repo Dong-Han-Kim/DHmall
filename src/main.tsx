@@ -12,22 +12,27 @@ import CartContextProvider from './context/CartContext.tsx';
 import SearchPage from './pages/search/SearchPage.tsx';
 import RQProvider from './component/RQProvider.tsx';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+	[
+		{
+			path: '/',
+			element: <App />,
+			children: [
+				{ index: true, element: <Home /> },
+				{ path: '/:category', element: <Categories /> },
+				{ path: '/:category/detail/:id', element: <Detail /> },
+				{ path: '/fashion', element: <Fashion /> },
+				{ path: '/fashion/detail/:id', element: <Detail /> },
+				{ path: 'detail/:id', element: <Detail /> },
+				{ path: '/cart', element: <Cart /> },
+				{ path: '/search/:searchItem', element: <SearchPage /> },
+			],
+		},
+	],
 	{
-		path: '/',
-		element: <App />,
-		children: [
-			{ index: true, element: <Home /> },
-			{ path: '/:category', element: <Categories /> },
-			{ path: '/:category/detail/:id', element: <Detail /> },
-			{ path: '/fashion', element: <Fashion /> },
-			{ path: '/fashion/detail/:id', element: <Detail /> },
-			{ path: 'detail/:id', element: <Detail /> },
-			{ path: '/cart', element: <Cart /> },
-			{ path: '/search/:searchItem', element: <SearchPage /> },
-		],
-	},
-]);
+		basename: '/shop',
+	}
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
