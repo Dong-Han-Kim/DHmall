@@ -5,5 +5,5 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react(), vanillaExtractPlugin()],
-	base: '/shop',
+	base: 'https://dong-han-kim.github.io/DHmall/',
 });
