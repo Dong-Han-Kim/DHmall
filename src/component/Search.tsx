@@ -15,7 +15,7 @@ export default function Search() {
 					className={style.searchInput}
 					onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value.toLowerCase())}
 				/>
-				<Link to={`search/${searchValue}`}>
+				<Link to={`/DHmall/search/${searchValue}`}>
 					<button className={style.searchBtn} onChange={() => setSearchValue('')}>
 						<SearchIcon />
 					</button>

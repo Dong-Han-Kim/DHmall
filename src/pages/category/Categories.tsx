@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getSpecificCategory } from '../services/api';
-import * as style from './styles/Categories.css';
+import { getSpecificCategory } from '../../services/api';
+import * as style from './Categories.css';
 import { Link, useLocation } from 'react-router-dom';
 
 interface Product {
@@ -13,7 +13,9 @@ interface Product {
 
 export function Categories() {
 	const location = useLocation();
-	const category = location.pathname;
+	const category = location.pathname.slice(7);
+
+	console.log(category);
 
 	const { data, isError, error } = useSuspenseQuery({
 		queryKey: ['specificCategory', category],
@@ -30,7 +32,7 @@ export function Categories() {
 			<div className={style.container}>
 				{products.map((product: Product) => {
 					return (
-						<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+						<Link to={`/DHmall/detail/${product.id}`} className={style.product} key={product.id}>
 							<div>
 								<div className={style.imgBox}>
 									<img src={product.image} alt="product image" className={style.productImg} />

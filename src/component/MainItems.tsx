@@ -30,7 +30,7 @@ export function MainItems({ category }: { category: string }) {
 				{products
 					.map((product: Product) => {
 						return (
-							<Link to={`detail/${product.id}`} className={style.product} key={product.id}>
+							<Link to={`/DHmall/detail/${product.id}`} className={style.product} key={product.id}>
 								<div>
 									<div className={style.imgBox}>
 										<img src={product.image} alt="product image" className={style.productImg} />

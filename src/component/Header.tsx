@@ -11,8 +11,8 @@ export function Header() {
 	return (
 		<header className={style.container}>
 			<section className={style.headerTop}>
-				<Link to={'/'}>
-					<img src="/shop/logo.png" alt="logo" className={style.logo} />
+				<Link to={'/DHmall/'}>
+					<img src="/DHmall/logo.png" alt="logo" className={style.logo} />
 				</Link>
 
 				<div className={style.search}>
@@ -20,7 +20,7 @@ export function Header() {
 				</div>
 
 				<div className={style.cart}>
-					<Link to={'/cart'} className={style.cartLink}>
+					<Link to={'/DHmall/cart'} className={style.cartLink}>
 						<Cart />
 						{product.length === 0 ? null : <div className={style.cartLength}>{product.length}</div>}
 					</Link>

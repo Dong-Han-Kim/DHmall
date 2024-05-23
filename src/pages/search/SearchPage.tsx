@@ -14,6 +14,7 @@ interface Product {
 
 export default function SearchPage() {
 	const { searchItem } = useParams();
+
 	const getProduct = useQuery({
 		queryKey: ['allProduct'],
 		queryFn: getAllProduct,
@@ -29,22 +30,29 @@ export default function SearchPage() {
 	console.log(getProduct);
 	const productList = getProduct.data.allProduct;
 	const results = productList.filter((product: Product) => product.title.toLowerCase().includes(searchItem));
+	console.log(results);
 
 	return (
 		<main className={style.main}>
-			{results.map((product: Product) => {
-				return (
-					<div key={product.id}>
-						<Link to={`/detail/${product.id}`}>
-							<div className={style.product__box}>
-								<img src={product.image} alt="product image" className={style.product__img} />
-								<p className={style.product__title}>{product.title}</p>
-								<p className={style.product__price}>${product.price}</p>
-							</div>
-						</Link>
-					</div>
-				);
-			})}
+			{results.length === 0 ? (
+				<div>
+					<h1>There are no products found for your search.</h1>
+				</div>
+			) : (
+				results.map((product: Product) => {
+					return (
+						<div key={product.id}>
+							<Link to={`/DHmall/detail/${product.id}`}>
+								<div className={style.product__box}>
+									<img src={product.image} alt="product image" className={style.product__img} />
+									<p className={style.product__title}>{product.title}</p>
+									<p className={style.product__price}>${product.price}</p>
+								</div>
+							</Link>
+						</div>
+					);
+				})
+			)}
 		</main>
 	);
 }

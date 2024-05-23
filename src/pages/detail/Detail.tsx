@@ -93,7 +93,7 @@ export default function Detail() {
 						</button>
 					</div>
 
-					<Link to={'/cart'} className={style.goToCart}>
+					<Link to={'/DHmall/cart'} className={style.goToCart}>
 						<button className={style.addToCart} onClick={addTocartHandler}>
 							Add to Cart
 						</button>

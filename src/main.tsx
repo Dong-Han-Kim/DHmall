@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Categories } from './component/Categories';
+import { Categories } from './pages/category/Categories.tsx';
 import Detail from './pages/detail/Detail.tsx';
 import Fashion from './pages/category/fashion.tsx';
 import Cart from './pages/cart/cart.tsx';
@@ -12,27 +12,22 @@ import CartContextProvider from './context/CartContext.tsx';
 import SearchPage from './pages/search/SearchPage.tsx';
 import RQProvider from './component/RQProvider.tsx';
 
-const router = createBrowserRouter(
-	[
-		{
-			path: '/',
-			element: <App />,
-			children: [
-				{ index: true, element: <Home /> },
-				{ path: '/:category', element: <Categories /> },
-				{ path: '/:category/detail/:id', element: <Detail /> },
-				{ path: '/fashion', element: <Fashion /> },
-				{ path: '/fashion/detail/:id', element: <Detail /> },
-				{ path: 'detail/:id', element: <Detail /> },
-				{ path: '/cart', element: <Cart /> },
-				{ path: '/search/:searchItem', element: <SearchPage /> },
-			],
-		},
-	],
+const router = createBrowserRouter([
 	{
-		basename: '/shop',
-	}
-);
+		path: '/DHmall/',
+		element: <App />,
+		children: [
+			{ path: '/DHmall/', element: <Home /> },
+			{ path: '/DHmall/:category', element: <Categories /> },
+			{ path: '/DHmall/:category/detail/:id', element: <Detail /> },
+			{ path: '/DHmall/fashion', element: <Fashion /> },
+			{ path: '/DHmall/fashion/detail/:id', element: <Detail /> },
+			{ path: '/DHmall/detail/:id', element: <Detail /> },
+			{ path: '/DHmall/cart', element: <Cart /> },
+			{ path: '/DHmall/search/:searchItem', element: <SearchPage /> },
+		],
+	},
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>

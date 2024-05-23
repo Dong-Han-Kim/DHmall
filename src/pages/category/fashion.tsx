@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { Categories } from '../../component/Categories';
+import { Categories } from './Categories';
 import * as style from './fashion.css';
 import { getAllProduct } from '../../services/api';
 import { Link } from 'react-router-dom';
