@@ -8,7 +8,7 @@ export const main = style({
 export const container = style({
 	display: 'flex',
 	gap: 5,
-	justifyContent: 'center',
+	justifyContent: 'flex-start',
 	flexWrap: 'wrap',
 });
 
