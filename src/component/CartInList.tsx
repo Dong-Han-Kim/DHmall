@@ -37,7 +37,7 @@ export default function CartInList() {
 			alert('You have completed your purchase.');
 			localStorage.removeItem(key);
 			setProduct([]);
-			navigate('/');
+			navigate('/DHmall');
 		} else {
 			alert('Your shopping cart is empty.');
 		}
@@ -46,6 +46,7 @@ export default function CartInList() {
 	// product 삭제
 	function deleteProduct(id: number) {
 		const newProductArr = product.filter((item: Product) => item.id !== id);
+		localStorage.setItem(key, newProductArr);
 		setProduct(newProductArr);
 	}
 
@@ -53,7 +54,7 @@ export default function CartInList() {
 		<>
 			<section>
 				{product.length !== 0
-					? product.map((item: Product) => {
+					? product?.map((item: Product) => {
 							return (
 								<div key={item.id}>
 									<div className={style.productList}>

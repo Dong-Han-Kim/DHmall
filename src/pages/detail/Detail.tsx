@@ -20,36 +20,51 @@ export default function Detail() {
 	const { id } = useParams() as { id: string };
 	const { product, setProduct } = useCartContext();
 	const [amount, setAmount] = useState<number>(1);
-	const detailFetch = useQuery({
+	const key = 'CartItem';
+	console.log(product);
+
+	const { data, isError, error, isLoading } = useQuery({
 		queryKey: ['singleProduct', id],
 		queryFn: () => getSingleProduct(id),
 	});
 
-	if (detailFetch.status === 'pending') {
+	if (isLoading) {
 		return <Loading />;
-	} else if (detailFetch.status === 'error') {
-		return <h1>ERROR: {detailFetch.error.message}</h1>;
+	}
+	if (isError) {
+		return <h1>ERROR: {error.message}</h1>;
 	}
 
-	const productDetail = detailFetch?.data.singleProduct;
+	const productDetail = data?.singleProduct;
 	const isAlreadyInCart = product.findIndex((item: Product) => item?.id === productDetail?.id) !== -1;
+	console.log(isAlreadyInCart);
 
-	const selectItem: Product = {
+	const item: Product = {
 		...productDetail,
 		amount: amount,
 	};
 
 	function addTocartHandler() {
-		if (!isAlreadyInCart) {
-			setProduct([...product, selectItem]);
-		} else if (isAlreadyInCart) {
-			const update = product.map((item: Product) => {
-				if (item.id === productDetail.id) {
-					setAmount((prev) => prev + amount);
-					return { ...item, amount: item.amount + amount };
-				}
-			});
-			setProduct(update);
+		const storageList = localStorage.getItem(key);
+		if (storageList) {
+			const currentCart = JSON.parse(storageList);
+			if (!isAlreadyInCart) {
+				const update = [...currentCart, item];
+				localStorage.setItem(key, JSON.stringify(update));
+				setProduct(update);
+			} else {
+				const update = currentCart.map((item: Product) => {
+					if (item.id === productDetail.id) {
+						return { ...item, amount: item.amount + amount };
+					}
+					return item;
+				});
+				localStorage.setItem(key, JSON.stringify(update));
+				setProduct(update);
+			}
+		} else {
+			localStorage.setItem(key, JSON.stringify([item]));
+			setProduct([item]);
 		}
 	}
 
@@ -76,18 +91,20 @@ export default function Detail() {
 						<button className={style.button} onClick={decrease}>
 							-
 						</button>
-						<input
-							className={style.count}
-							type="number"
-							name="amount"
-							placeholder="1"
-							min={1}
-							value={amount}
-							readOnly
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-								setAmount(Number(e.target.value));
-							}}
-						/>
+						<div className={style.input_box}>
+							<input
+								className={style.count}
+								type="number"
+								name="amount"
+								placeholder="1"
+								min={1}
+								value={amount}
+								readOnly
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+									setAmount(Number(e.target.value));
+								}}
+							/>
+						</div>
 						<button className={style.button} onClick={increase}>
 							+
 						</button>

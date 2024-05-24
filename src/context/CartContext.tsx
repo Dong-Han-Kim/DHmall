@@ -19,10 +19,8 @@ export default function CartContextProvider({ children }: { children: ReactNode 
 	useEffect(() => {
 		const getProduct = localStorage.getItem(key);
 		if (getProduct) {
-			const productObj = JSON.parse(getProduct);
-			if (productObj) {
-				setProduct(productObj);
-			}
+			const productList = JSON.parse(getProduct);
+			setProduct([...productList]);
 		} else {
 			setProduct([]);
 		}

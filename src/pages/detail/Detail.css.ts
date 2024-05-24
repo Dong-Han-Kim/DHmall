@@ -38,10 +38,16 @@ export const price = style({
 	marginTop: 25,
 });
 
-export const count = style({
-	width: '3rem',
-	height: '2rem',
+export const input_box = style({
 	textAlign: 'center',
+	margin: '0 auto',
+});
+
+export const count = style({
+	width: 40,
+	height: 25,
+	borderRadius: 5,
+	border: '1px solid black',
 });
 
 ///////////////////////////////////////////////////

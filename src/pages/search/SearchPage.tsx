@@ -35,8 +35,8 @@ export default function SearchPage() {
 	return (
 		<main className={style.main}>
 			{results.length === 0 ? (
-				<div>
-					<h1>There are no products found for your search.</h1>
+				<div style={{ textAlign: 'center' }}>
+					<h1>"{searchItem}" The product does not exist.</h1>
 				</div>
 			) : (
 				results.map((product: Product) => {
